@@ -23,17 +23,19 @@ router.get('/list', async(req, res) => {
     try{
         if(!req.filter){
             const authorList = await Author.find()
-            const moreAuthor = authorList.map( e => {
-                return {...e, count: getMusicCountByAuthorId(e.id)}
+            const moreAuthor = authorList.map(async e => {
+                return {...e, count: await getMusicCountByAuthorId(e.id)}
             })
-            res.status(200).json({authorList: moreAuthor})
+            const realAuthor = await Promise.all(moreAuthor)
+            res.status(200).json({authorList: realAuthor})
         }
         else{
             const authorList = await Author.find({name: filter})
-            const moreAuthor = authorList.map( e => {
-                return {...e, count: getMusicCountByAuthorId(e.id)}
+            const moreAuthor = authorList.map(async e => {
+                return {...e, count: await getMusicCountByAuthorId(e.id)}
             })
-            res.status(200).json({authorList: moreAuthor})
+            const realAuthor = await Promise.all(moreAuthor)
+            res.status(200).json({authorList: realAuthor})
         }
     }
     catch(e){
