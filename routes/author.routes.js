@@ -1,6 +1,7 @@
 const Author = require('../models/author.model') 
 const {Router} = require('express')
-const { checkToken } = require('../authGuard')
+const { checkToken } = require('../authGuard');
+const { getMusicCountByAuthorId } = require('../proxy/music.proxy');
 
 const router = Router();
 
@@ -22,11 +23,17 @@ router.get('/list', async(req, res) => {
     try{
         if(!req.filter){
             const authorList = await Author.find()
-            res.status(200).json({authorList})
+            const moreAuthor = authorList.map( e => {
+                return {...e, count: getMusicCountByAuthorId(e.id)}
+            })
+            res.status(200).json({authorList: moreAuthor})
         }
         else{
             const authorList = await Author.find({name: filter})
-            res.status(200).json({authorList})
+            const moreAuthor = authorList.map( e => {
+                return {...e, count: getMusicCountByAuthorId(e.id)}
+            })
+            res.status(200).json({authorList: moreAuthor})
         }
     }
     catch(e){
