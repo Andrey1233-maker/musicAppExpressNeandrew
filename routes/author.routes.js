@@ -3,10 +3,10 @@ const { checkToken } = require('../authGuard');
 
 const router = Router();
 
-router.post('/test', authenticateToken, async(req, res) => {
+router.post('/test', async(req, res) => {
     try{
-        if(checkToken(authenticateToken)){
-            res.status(200).json({message: checkToken(authenticateToken)})
+        if(checkToken(req.header.Authorization.split(' ')[1])){
+            res.status(200).json({message: req.header.Authorization.split(' ')[1]})
         }
         else{
             res.status(500).json({message: "SAST"})
