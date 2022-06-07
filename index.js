@@ -13,6 +13,7 @@ app.use( express.json({extended : true}) )
 app.use( bodyParser.urlencoded({ extended: true }) );
 
 app.use('/auth', require('./routes/auth.routes'))
+app.use('/author', request('./routes/author.routes'))
 
 const start = async () => {
     try{
