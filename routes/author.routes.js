@@ -38,7 +38,7 @@ router.get('/list', async(req, res) => {
 router.post('/create', async (req, res) => {
     try{
         const authorName = req.name
-        const newAuthor = new Author({name})
+        const newAuthor = new Author({authorName})
         await newAuthor.save()
         res.status(200).json({message: "Success"})
     }
