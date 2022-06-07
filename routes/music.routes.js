@@ -10,6 +10,9 @@ router.get('/list', async(req, res) => {
             const musicList = await Music.find()
             res.status(200).json({musicList})
         }
+        else{
+            
+        }
     }
     catch(e){
         res.status(500).json({message: e})
