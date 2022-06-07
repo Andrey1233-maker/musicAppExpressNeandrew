@@ -1,5 +1,3 @@
-const User = require('../models/user.model'); 
-const jwt = require('jsonwebtoken');
 const {Router} = require('express');
 
 const router = Router();
@@ -10,7 +8,7 @@ router.post('/test', async(req, res) => {
             res.status(200).json({message: req.user})
         }
         else{
-            throw "SASAT"
+            res.status(500).json({message: "SASAT"})
         }
     }
     catch(e){
