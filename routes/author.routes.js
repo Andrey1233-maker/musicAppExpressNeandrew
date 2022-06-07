@@ -10,7 +10,7 @@ router.post('/test', async(req, res) => {
             res.status(200).json({message: req.user})
         }
         else{
-            throw new Error("SASAT")
+            throw "SASAT"
         }
     }
     catch(e){
