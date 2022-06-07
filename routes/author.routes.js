@@ -18,7 +18,7 @@ router.post('/test', async(req, res) => {
     }
 })
 
-router.post('/list', async(req, res) => {
+router.get('/list', async(req, res) => {
     try{
         if(!req.filter){
             const authorList = await Author.find()
@@ -33,6 +33,18 @@ router.post('/list', async(req, res) => {
         res.status(500).json({message: e})
     }
 
+})
+
+router.post('/create', async (req, res) => {
+    try{
+        const authorName = req.name
+        const newAuthor = new Author({name})
+        await newAuthor.save()
+        res.status(200).json({message: "Success"})
+    }
+    catch(e){
+        res.status(500).json({message: e})
+    }
 })
 
 
