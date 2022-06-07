@@ -7,7 +7,7 @@ const schema = new Schema({
     name: { type: string, required: true },
     file: { type: Types.ObjectId, ref: 'File' },
     image: { type: Types.ObjectId, ref: 'Image'},
-    author: { type: string, required: true },
+    author: { type: Types.ObjectId, ref: 'Author' },
     kind: { type: string, required: true },
 })
 
