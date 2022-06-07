@@ -1,4 +1,4 @@
-const Author = require('../models/Author.model') 
+const Author = require('../models/author.model') 
 const {Router} = require('express')
 const { checkToken } = require('../authGuard')
 
