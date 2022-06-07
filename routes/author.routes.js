@@ -40,7 +40,7 @@ router.post('/create', async (req, res) => {
         const authorName = req.name
         const newAuthor = new Author({authorName})
         await newAuthor.save()
-        res.status(200).json({message: "Success"})
+        res.status(200).json({message: "Successfull"})
     }
     catch(e){
         res.status(500).json({message: e})
