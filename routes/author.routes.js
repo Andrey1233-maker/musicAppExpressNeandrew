@@ -1,14 +1,15 @@
 const {Router} = require('express');
+const { checkToken } = require('../authGuard');
 
 const router = Router();
 
-router.post('/test', async(req, res) => {
+router.post('/test', authenticateToken, async(req, res) => {
     try{
-        if(req.user){
-            res.status(200).json({message: req.user})
+        if(checkToken(authenticateToken)){
+            res.status(200).json({message: checkToken(authenticateToken)})
         }
         else{
-            res.status(500).json({message: "SASAT"})
+            res.status(500).json({message: "SAST"})
         }
     }
     catch(e){
