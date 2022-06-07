@@ -21,27 +21,25 @@ router.post('/test', async(req, res) => {
 
 router.get('/list', async(req, res) => {
     try{
-        if(!req.filter){
-            const authorList = await Author.find()
-            const moreAuthor = authorList.map(async e => {
-                return {...e, count: await getMusicCountByAuthorId(e.id)}
-            })
-            const realAuthor = await Promise.all(moreAuthor)
-            res.status(200).json({authorList: realAuthor})
-        }
-        else{
-            const authorList = await Author.find({name: filter})
-            const moreAuthor = authorList.map(async e => {
-                return {...e, count: await getMusicCountByAuthorId(e.id)}
-            })
-            const realAuthor = await Promise.all(moreAuthor)
-            res.status(200).json({authorList: realAuthor})
-        }
+        const authorList = await Author.find()
+        res.status(200).json({authorList})
     }
     catch(e){
         res.status(500).json({message: e})
     }
 
+})
+
+router.post('/create', async(req, res) => {
+    try{
+        const name = req.body.name
+        const newAuthor = new Author({name})
+        await newAuthor.save()
+        res.status(200).json({newAuthor})
+    }
+    catch(e){
+        res.status(500).json({message: e})
+    }
 })
 
 

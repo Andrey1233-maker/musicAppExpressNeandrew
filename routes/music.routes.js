@@ -21,13 +21,12 @@ router.get('/list', async(req, res) => {
 
 router.post('/create', async(req, res) => {
     try{
-        const name = req.name
-        const kind = req.kind
-        const author = req.author || null
-        const file = req.file || null
-        const image = req.image || null
+        console.log(req.body)
+        const author = req.body.author || null
+        const file = req.body.file || null
+        const image = req.body.image || null
 
-        const newMusic = new Music({name: req.name, kind: req.kind, author, file, image})
+        const newMusic = new Music({name: req.body.name, kind: req.body.kind, author, file, image})
         await newMusic.save()
         res.status(200).json({newMusic})
     }
