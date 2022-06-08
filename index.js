@@ -16,6 +16,8 @@ app.use('/auth', require('./routes/auth.routes'))
 app.use('/author', require('./routes/author.routes'))
 app.use('/music', require('./routes/music.routes'))
 app.use('/file', require('./routes/file.routes'))
+app.use('/grade', require('./routes/grade.routes'))
+
 
 const start = async () => {
     try{
