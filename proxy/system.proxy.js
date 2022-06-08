@@ -48,7 +48,7 @@ async function createPublicUri(file){
     try{
         const fileId = file.id_in_drive
         const drive = getGoogleApi()
-        const response = await drive.permessions.create({
+        const response = await drive.permissions.create({
             fileId,
             requestBody: {
                 role: 'reader',
@@ -62,7 +62,7 @@ async function createPublicUri(file){
         })
 
         console.log(result.data)
-        return result.data
+        return result.data.webContentLink
     }
     catch(e){
         console.log(e.message)
