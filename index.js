@@ -15,6 +15,7 @@ app.use( bodyParser.urlencoded({ extended: true }) );
 app.use('/auth', require('./routes/auth.routes'))
 app.use('/author', require('./routes/author.routes'))
 app.use('/music', require('./routes/music.routes'))
+app.use('/file', require('./routes/file.routes'))
 
 const start = async () => {
     try{

@@ -22,7 +22,8 @@ router.post('/test', async(req, res) => {
 router.get('/list', async(req, res) => {
     try{
         const authorList = await Author.find()
-        res.status(200).json({authorList})
+        const bigAuthorList = authorList.map(e => ({name: e.name, _id: e._id, img: e.img, count: 1}))
+        res.status(200).json({authorList: bigAuthorList})
     }
     catch(e){
         res.status(500).json({message: e})
