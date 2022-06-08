@@ -70,7 +70,7 @@ router.post('/file', verifyToken, async(req, res) => {
     try{
         const fileId = req.body.id
         const fileLink = await getLinkById(fileId)
-        res.status(200).json({fileLink})
+        res.status(200).send(fileLink)
     }
     catch(e){
         res.status(500).json({message: e})
