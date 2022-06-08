@@ -10,4 +10,14 @@ async function getSummOfGradeById(id){
     }
 }
 
-module.exports = { getSummOfGradeById }
+async function thisUserLiked(id, musicId){
+    try{
+        const result = await Grade.findOne({user: id, music: musicId})
+        return (result) ? true : false
+    }
+    catch(e){
+        throw e
+    }
+}
+
+module.exports = { getSummOfGradeById, thisUserLiked }

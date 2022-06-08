@@ -55,7 +55,7 @@ router.get('/list/popular', async(req, res) => {
             const sortedMusicList = musicArray.sort((a, b) => {
                 return a.grade > b.grade
             })
-            res.status(200).json({musicList: sortedMusicList})
+            res.status(200).json({popularList: sortedMusicList})
         }
         else{
             
