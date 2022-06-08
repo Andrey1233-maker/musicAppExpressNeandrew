@@ -66,4 +66,15 @@ router.get('/list/popular', verifyToken , async(req, res) => {
     }
 })
 
+router.post('/file', verifyToken, async(req, res) => {
+    try{
+        const fileId = req.body.id
+        const fileLink = await getLinkById(fileId)
+        res.status(200).json({fileLink})
+    }
+    catch(e){
+        res.status(500).json({message: e})
+    }
+})
+
 module.exports = router;
