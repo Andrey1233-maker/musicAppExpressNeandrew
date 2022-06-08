@@ -3,31 +3,28 @@ const File = require('../models/file.model');
 const jwt = require('jsonwebtoken');
 const {Router} = require('express');
 const { getLinkById } = require('../proxy/file.proxy');
-const { getSummOfGradeById } = require('../proxy/grade.proxy');
+const { getSummOfGradeById, thisUserLiked } = require('../proxy/grade.proxy');
+const { verifyToken } = require('../proxy/auth.proxy');
 
 const router = Router();
 
-router.get('/list', async(req, res) => {
+router.get('/list', verifyToken, async(req, res) => {
     try{
-        if(!req.author){
-            const musicList = await Music.find()
-            let musicArray = []
-            for(let i = 0; i < musicList.length; i++){
-                const e = musicList[i]
-                musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author, kind: e.kind})
-            }
-            res.status(200).json({musicList: musicArray})
+        const musicList = await Music.find()
+        let musicArray = []
+        for(let i = 0; i < musicList.length; i++){
+            const e = musicList[i]
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author, kind: e.kind, liked: await thisUserLiked(req.user.userId, e._id)})
         }
-        else{
-            
-        }
+        res.status(200).json({musicList: musicArray})
+
     }
     catch(e){
         res.status(500).json({message: e})
     }
 })
 
-router.post('/create', async(req, res) => {
+router.post('/create', verifyToken, async(req, res) => {
     try{
         console.log(req.body)
         const author = req.body.author || null
@@ -43,14 +40,14 @@ router.post('/create', async(req, res) => {
     }
 })
 
-router.get('/list/popular', async(req, res) => {
+router.get('/list/popular', verifyToken , async(req, res) => {
     try{
         if(!req.author){
             const musicList = await Music.find()
             let musicArray = []
             for(let i = 0; i < musicList.length; i++){
                 const e = musicList[i]
-                musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author, kind: e.kind, grade: await getSummOfGradeById(e._id)})
+                musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author, kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
             }
             const sortedMusicList = musicArray.sort((a, b) => {
                 return a.grade > b.grade
