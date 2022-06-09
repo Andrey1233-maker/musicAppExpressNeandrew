@@ -9,6 +9,7 @@ const schema = new Schema({
     image: { type: Types.ObjectId, ref: 'File'},
     author: { type: Types.ObjectId, ref: 'Author' },
     kind: { type: String, required: true },
+    translate: {type: Types.ObjectId, ref: 'File'},
 })
 
 module.exports = model('Music', schema)

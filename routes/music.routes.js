@@ -1,7 +1,4 @@
 const Music = require('../models/music.model'); 
-const Author = require('../models/author.model'); 
-const File = require('../models/file.model'); 
-const jwt = require('jsonwebtoken');
 const {Router} = require('express');
 const { getLinkById } = require('../proxy/file.proxy');
 const { getSummOfGradeById, thisUserLiked } = require('../proxy/grade.proxy');
@@ -17,7 +14,7 @@ router.get('/list', verifyToken, async(req, res) => {
         let musicArray = []
         for(let i = 0; i < musicList.length; i++){
             const e = musicList[i]
-            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author &&  await getAuthorNameById(e.author), kind: e.kind, liked: await thisUserLiked(req.user.userId, e._id)})
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author &&  await getAuthorNameById(e.author), kind: e.kind, liked: await thisUserLiked(req.user.userId, e._id), translate: e.translate})
         }
         res.status(200).json({musicList: musicArray})
 
@@ -49,7 +46,7 @@ router.get('/list/popular', verifyToken , async(req, res) => {
         let musicArray = []
         for(let i = 0; i < musicList.length; i++){
             const e = musicList[i]
-            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id), translate: e.translate})
         }
         const sortedMusicList = musicArray.sort((a, b) => {
             return a.grade > b.grade
@@ -79,7 +76,7 @@ router.post('/list/author', verifyToken, async(req, res) => {
         let musicArray = []
         for(let i = 0; i < musicList.length; i++){
             const e = musicList[i]
-            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id), translate: e.translate})
         }
         const sortedMusicList = musicArray.sort((a, b) => {
             return a.grade > b.grade

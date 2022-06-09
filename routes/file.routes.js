@@ -1,4 +1,5 @@
 const File = require('../models/file.model'); 
+const Music = require('../models/music.model'); 
 const {Router} = require('express');
 const {getFileListFromDrive} = require('../proxy/system.proxy')
 
@@ -38,5 +39,11 @@ router.get('/', async(req, res) => {
         res.status(500).json({message: e})
     }
 })
+// // 1PA2AbPz_Unq5yK3NM6kwddHpDYOsswoe
+// router.get('/dev', async (req, res) =>{
+//     const file = await File.findOne({id_in_drive: '1PA2AbPz_Unq5yK3NM6kwddHpDYOsswoe'})
+//     const music = await Music.findOne()
+//     await Music.updateOne({_id: music._id}, {translete: file._id})
+// })
 
 module.exports = router
