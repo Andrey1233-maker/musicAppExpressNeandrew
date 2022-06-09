@@ -2,6 +2,7 @@ const Author = require('../models/author.model')
 const {Router} = require('express')
 const { checkToken } = require('../authGuard');
 const { getLinkById } = require('../proxy/file.proxy');
+const { getMusicCountByAuthorId } = require('../proxy/music.proxy');
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router.get('/list', async(req, res) => {
         let authorArray = []
         for(let i =0; i < authorList.length; i++){
             const e = authorList[i]
-            authorArray.push({name: e.name, _id: e._id, img: e.img, count: Math.floor(Math.random() * 15), imgPath: await getLinkById(e.img) })
+            authorArray.push({name: e.name, _id: e._id, img: e.img, count: await getMusicCountByAuthorId(e._id), imgPath: await getLinkById(e.img) })
         }
         res.status(200).json({authorList: authorArray})
     }

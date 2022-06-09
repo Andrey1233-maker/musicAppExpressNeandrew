@@ -45,22 +45,17 @@ router.post('/create', verifyToken, async(req, res) => {
 
 router.get('/list/popular', verifyToken , async(req, res) => {
     try{
-        if(!req.author){
-            const musicList = await Music.find()
-            let musicArray = []
-            for(let i = 0; i < musicList.length; i++){
-                const e = musicList[i]
-                musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
-            }
-            const sortedMusicList = musicArray.sort((a, b) => {
-                return a.grade > b.grade
-            })
-            res.status(200).json({popularList: sortedMusicList})
+        const musicList = await Music.find()
+        let musicArray = []
+        for(let i = 0; i < musicList.length; i++){
+            const e = musicList[i]
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
         }
-        else{
-            
-        }
-    }
+        const sortedMusicList = musicArray.sort((a, b) => {
+            return a.grade > b.grade
+        })
+        res.status(200).json({popularList: sortedMusicList})
+}
     catch(e){
         res.status(500).json({message: e})
     }
@@ -77,4 +72,24 @@ router.post('/file', verifyToken, async(req, res) => {
     }
 })
 
-module.exports = router;
+router.post('/list/author', verifyToken, async(req, res) => {
+    try{
+        const authorId = req.body.id
+        const musicList = await Music.find({author: authorId})
+        let musicArray = []
+        for(let i = 0; i < musicList.length; i++){
+            const e = musicList[i]
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author && await getAuthorNameById(e.author), kind: e.kind, grade: await getSummOfGradeById(e._id),  liked: await thisUserLiked(req.user.userId, e._id)})
+        }
+        const sortedMusicList = musicArray.sort((a, b) => {
+            return a.grade > b.grade
+        })
+        res.status(200).json({musicList: sortedMusicList})
+    }
+    catch(e){
+        console.error(e)
+        res.status(500).json({message: e})
+    }
+})
+
+module.exports = router;``
