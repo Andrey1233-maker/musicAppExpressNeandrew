@@ -14,7 +14,7 @@ router.get('/list', verifyToken, async(req, res) => {
         let musicArray = []
         for(let i = 0; i < musicList.length; i++){
             const e = musicList[i]
-            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author &&  await getAuthorNameById(e.author), kind: e.kind, liked: await thisUserLiked(req.user.userId, e._id), translate: e.translate})
+            musicArray.push({name: e.name, _id: e._id, file: e.file, imgPath: await getLinkById(e.image), author: e.author &&  await getAuthorNameById(e.author), kind: e.kind, liked: await thisUserLiked(req.user.userId, e._id), translete: e.translete})
         }
         res.status(200).json({musicList: musicArray})
 
